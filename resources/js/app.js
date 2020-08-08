@@ -5,9 +5,17 @@
  */
 
 require('./bootstrap');
-
+import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loader
 window.Vue = require('vue');
 
+
+import Vue from 'vue'
+import Vuetify from 'vuetify'
+
+
+
+
+Vue.use(Vuetify)
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -21,6 +29,7 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -29,4 +38,27 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
+    vuetify: new Vuetify({
+        iconfont: 'md',
+        theme: {
+            themes: {
+                light: {
+                    primary: '#0054a5',
+                    secondary: '#6606D2',
+                    accent: '#82B1FF',
+                    error: '#FF5252',
+                    info: '#2196F3',
+                    success: '#4CAF50',
+                    warning: '#FFC107',
+                }
+            }
+        },
+    }),
+    data() {
+        return {
+            dialog: false,
+            drawer: null,
+            hints: true,
+        }
+    },
 });
