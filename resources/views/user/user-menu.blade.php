@@ -8,19 +8,14 @@
                 </v-list-item-icon>
                 <v-list-item-title class="subtitle-1">Nueva Orden</v-list-item-title>
           </v-list-item>
-        <v-list-item key="2" @click="" href="#">
+        <v-list-item key="2" @click="" href="{{ route('ordenes-pagar') }}">
             <v-list-item-icon>
               <v-icon large> mdi-clipboard-text-multiple-outline</v-icon>
             </v-list-item-icon>
-            <v-list-item-title class="subtitle-1">Resumen</v-list-item-title>
+            <v-list-item-title class="subtitle-1">Pagar</v-list-item-title>
           </v-list-item>
+          
           <v-list-item key="3" @click="" href="#">
-            <v-list-item-icon>
-              <v-icon large> mdi-state-machine</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title class="subtitle-1">Estado Orden</v-list-item-title>
-          </v-list-item>
-          <v-list-item key="4" @click="" href="#">
             <v-list-item-icon>
               <v-icon large> mdi-clipboard-list-outline</v-icon>
             </v-list-item-icon>

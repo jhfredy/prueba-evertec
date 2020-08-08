@@ -38,15 +38,32 @@ class OrderController extends Controller
             $order->customer_mobile=$data->customer_mobile;
             $order->status="CREATED";
             $order->save();
-            $urlPlace=$this->placeToPay($order);
+           
         DB::commit();
-        return $urlPlace;
+        
     } catch (\Exception $e) {
         
         DB::rollback();
         return response()->json([
             'errors' =>
             ['message' => ['Error '.$e]]], 422);
+        }
+    }
+    public function pagarOrden(Request $request){
+        $data=(object)$request->model;
+        $urlPlace=$this->placeToPay($data);
+        return $urlPlace;
+        
+    }
+    public function mostrarOrdenes(Request $request){
+        $opcion=$request->opcion;
+        //si la opcion es 1 muestra las ordenes creadas si no muestra todas las opciones
+        if($opcion==1){
+            return Order::where('status','CREATED')
+            ->orWhere('status','REJECTED')
+            ->get();
+        }else{
+            return Order::all();
         }
     }
     
@@ -73,7 +90,8 @@ class OrderController extends Controller
                 ],
             ],
             'expiration' => date('c', strtotime('+2 days')),
-            'returnUrl' => 'http://example.com/response?reference=' . $reference,
+            'returnUrl' => 'http://localhost:8000/aceptarOrden/'. $reference,
+            'cancelUrl' => 'http://localhost:8000/cancelarOrden/'. $reference,
             'ipAddress' => '127.0.0.1',
             'userAgent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36',
         ];
@@ -87,5 +105,22 @@ class OrderController extends Controller
             // There was some error so check the message and log it
             return $response->status()->message();
         }
+
+    }
+    public function aceptarOrden($orden_id){
+        $orden=Order::find($orden_id);
+        if($orden->status=="CREATED"){
+            $orden->status="PAYED";
+        }
+        $orden->save();
+        return redirect('/ordenesPagar')->with('orden');
+    }
+    public function cancelarOrden($orden_id){
+        $orden=Order::find($orden_id);
+        if($orden->status=="CREATED"){
+            $orden->status="REJECTED";
+        }
+        $orden->save();
+        return redirect('/ordenesPagar')->with('orden');
     }
 }

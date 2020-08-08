@@ -175,8 +175,8 @@ export default {
           this.color_snackbar = "success";
           this.snackbar_mensaje = true;
           this.text_snackbar.push("Orden Creada Correctamente");
-          //this.limpiarCampos();
-          window.open(response.data, '_blank');
+          this.limpiarCampos();
+          // window.open(response.data, '_blank');
         })
         .catch(error => {
           this.dialogEnviando = false;
