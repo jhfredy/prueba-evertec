@@ -162,6 +162,7 @@ export default {
 
   methods: {
     guardarOrden() {
+      
          this.dialogEnviar = false;
       this.dialogEnviando = true;
       this.text_snackbar = [];
@@ -169,11 +170,13 @@ export default {
           model: this.model,
         })
         .then(response => {
+        
           this.dialogEnviando = false;
           this.color_snackbar = "success";
           this.snackbar_mensaje = true;
           this.text_snackbar.push("Orden Creada Correctamente");
-          this.limpiarCampos();
+          //this.limpiarCampos();
+          window.open(response.data, '_blank');
         })
         .catch(error => {
           this.dialogEnviando = false;

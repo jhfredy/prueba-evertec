@@ -2168,9 +2168,10 @@ __webpack_require__.r(__webpack_exports__);
         _this.color_snackbar = "success";
         _this.snackbar_mensaje = true;
 
-        _this.text_snackbar.push("Orden Creada Correctamente");
+        _this.text_snackbar.push("Orden Creada Correctamente"); //this.limpiarCampos();
 
-        _this.limpiarCampos();
+
+        window.open(response.data, '_blank');
       })["catch"](function (error) {
         _this.dialogEnviando = false;
         _this.color_snackbar = "error";
