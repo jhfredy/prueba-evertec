@@ -3,7 +3,7 @@
     <v-toolbar class="mb-2" color="#fafafa" light flat>
       <v-toolbar-title class="black--text">
         <v-avatar color="primary" class="mr-5">
-          <v-icon large dark>mdi-clipboard-text-multiple-outline</v-icon>
+          <v-icon large dark>mdi-account-cash-outline</v-icon>
         </v-avatar>Resumen
       </v-toolbar-title>
     </v-toolbar>
@@ -15,6 +15,7 @@
           <v-toolbar color light flat>
             <v-toolbar-title class="black--text text-uppercase">Ordenes Por Pagar</v-toolbar-title>
           </v-toolbar>
+          
 
           <v-container>
             <v-card class="mx-auto" elevation="0">

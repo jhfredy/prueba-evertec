@@ -2382,6 +2382,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_mixins_funcionesGenerales__WEBPACK_IMPORTED_MODULE_0__["default"]],
@@ -39217,7 +39218,7 @@ var render = function() {
                 { staticClass: "mr-5", attrs: { color: "primary" } },
                 [
                   _c("v-icon", { attrs: { large: "", dark: "" } }, [
-                    _vm._v("mdi-clipboard-text-multiple-outline")
+                    _vm._v("mdi-account-cash-outline")
                   ])
                 ],
                 1

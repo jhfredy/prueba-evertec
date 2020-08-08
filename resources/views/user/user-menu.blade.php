@@ -10,16 +10,16 @@
           </v-list-item>
         <v-list-item key="2" @click="" href="{{ route('ordenes-pagar') }}">
             <v-list-item-icon>
-              <v-icon large> mdi-clipboard-text-multiple-outline</v-icon>
+              <v-icon large> mdi-account-cash-outline</v-icon>
             </v-list-item-icon>
-            <v-list-item-title class="subtitle-1">Pagar</v-list-item-title>
+            <v-list-item-title class="subtitle-1">Pagar Ordenes</v-list-item-title>
           </v-list-item>
           
           <v-list-item key="3" @click="" href="#">
             <v-list-item-icon>
               <v-icon large> mdi-clipboard-list-outline</v-icon>
             </v-list-item-icon>
-            <v-list-item-title class="subtitle-1">Ordenes</v-list-item-title>
+            <v-list-item-title class="subtitle-1">Lista Ordenes</v-list-item-title>
           </v-list-item>
          
         <v-divider  dark class="my-3"></v-divider>
