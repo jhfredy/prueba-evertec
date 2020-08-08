@@ -43,7 +43,7 @@ const app = new Vue({
         theme: {
             themes: {
                 light: {
-                    primary: '#0054a5',
+                    primary: '#ff7016',
                     secondary: '#6606D2',
                     accent: '#82B1FF',
                     error: '#FF5252',

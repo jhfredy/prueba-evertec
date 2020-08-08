@@ -94234,7 +94234,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_1___default.a({
     theme: {
       themes: {
         light: {
-          primary: '#0054a5',
+          primary: '#ff7016',
           secondary: '#6606D2',
           accent: '#82B1FF',
           error: '#FF5252',
