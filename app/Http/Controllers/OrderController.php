@@ -108,12 +108,13 @@ class OrderController extends Controller
 
     }
     public function aceptarOrden($orden_id){
+        
         $orden=Order::find($orden_id);
         if($orden->status=="CREATED"){
             $orden->status="PAYED";
         }
         $orden->save();
-        return redirect('/ordenesPagar')->with('orden');
+        return redirect('/ordenesPagar');
     }
     public function cancelarOrden($orden_id){
         $orden=Order::find($orden_id);
@@ -121,6 +122,6 @@ class OrderController extends Controller
             $orden->status="REJECTED";
         }
         $orden->save();
-        return redirect('/ordenesPagar')->with('orden');
+        return redirect('/ordenesPagar');
     }
 }
