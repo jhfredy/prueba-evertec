@@ -4,7 +4,7 @@
     <v-container fluid fill-height class="pa-0 " style="max-width:100%" >
         <v-layout>
             <v-fade-transition fluid fill-height mode="out-in">
-              
+              <user-create-order-component></user-create-order-component>
             </v-fade-transition>
         </v-layout>
     </v-container>

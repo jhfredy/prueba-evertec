@@ -17,7 +17,7 @@
     <title>Ventas Evertec</title>
     <style>
          * {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Fjalla One', sans-serif;
         }
         
           html{
