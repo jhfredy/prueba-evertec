@@ -39,18 +39,19 @@
                       :counter="120"
                       label="Dirección de correo electrónico"
                       dense
-                      :rules="[rules_form.requerido]"
+                      :rules="[rules_form.requerido,rules_form.email]"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="6">
                     <v-text-field
-                      maxlength="40"
+                    
+                      maxlength="10"
                       outlined
                       v-model="model.customer_mobile"
-                      :counter="40"
+                      :counter="10"
                       label=" Número de celular "
                       dense
-                      :rules="[rules_form.requerido]"
+                       :rules="[rules_form.requerido,rules_form.numeros]"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -161,7 +162,34 @@ export default {
 
   methods: {
     guardarOrden() {
-        
+         this.dialogEnviar = false;
+      this.dialogEnviando = true;
+      this.text_snackbar = [];
+      axios.post("/guardarOrden", {
+          model: this.model,
+        })
+        .then(response => {
+          this.dialogEnviando = false;
+          this.color_snackbar = "success";
+          this.snackbar_mensaje = true;
+          this.text_snackbar.push("Orden Creada Correctamente");
+          this.limpiarCampos();
+        })
+        .catch(error => {
+          this.dialogEnviando = false;
+          this.color_snackbar = "error";
+          this.snackbar_mensaje = true;
+
+          var errores = error.response.data.errors;
+
+          for (var key in errores) {
+            if (errores.hasOwnProperty(key)) {
+              errores[key].forEach(element => {
+                this.text_snackbar.push(element);
+              });
+            }
+          }
+        });
     },
     abrirDialogGuardar() {
       if (this.$refs.form_orden.validate()) {

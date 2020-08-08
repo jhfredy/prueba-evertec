@@ -2135,6 +2135,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_mixins_funcionesGenerales__WEBPACK_IMPORTED_MODULE_0__["default"]],
@@ -2154,7 +2155,37 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    guardarOrden: function guardarOrden() {},
+    guardarOrden: function guardarOrden() {
+      var _this = this;
+
+      this.dialogEnviar = false;
+      this.dialogEnviando = true;
+      this.text_snackbar = [];
+      axios.post("/guardarOrden", {
+        model: this.model
+      }).then(function (response) {
+        _this.dialogEnviando = false;
+        _this.color_snackbar = "success";
+        _this.snackbar_mensaje = true;
+
+        _this.text_snackbar.push("Orden Creada Correctamente");
+
+        _this.limpiarCampos();
+      })["catch"](function (error) {
+        _this.dialogEnviando = false;
+        _this.color_snackbar = "error";
+        _this.snackbar_mensaje = true;
+        var errores = error.response.data.errors;
+
+        for (var key in errores) {
+          if (errores.hasOwnProperty(key)) {
+            errores[key].forEach(function (element) {
+              _this.text_snackbar.push(element);
+            });
+          }
+        }
+      });
+    },
     abrirDialogGuardar: function abrirDialogGuardar() {
       if (this.$refs.form_orden.validate()) {
         this.dialogEnviar = true;
@@ -38525,7 +38556,10 @@ var render = function() {
                                           label:
                                             "Dirección de correo electrónico",
                                           dense: "",
-                                          rules: [_vm.rules_form.requerido]
+                                          rules: [
+                                            _vm.rules_form.requerido,
+                                            _vm.rules_form.email
+                                          ]
                                         },
                                         model: {
                                           value: _vm.model.customer_email,
@@ -38549,12 +38583,15 @@ var render = function() {
                                     [
                                       _c("v-text-field", {
                                         attrs: {
-                                          maxlength: "40",
+                                          maxlength: "10",
                                           outlined: "",
-                                          counter: 40,
+                                          counter: 10,
                                           label: " Número de celular ",
                                           dense: "",
-                                          rules: [_vm.rules_form.requerido]
+                                          rules: [
+                                            _vm.rules_form.requerido,
+                                            _vm.rules_form.numeros
+                                          ]
                                         },
                                         model: {
                                           value: _vm.model.customer_mobile,
