@@ -44,7 +44,7 @@
                   </v-col>
                   <v-col cols="12" sm="6" md="6">
                     <v-text-field
-                    
+                      @keyup="onlyNumber"
                       maxlength="10"
                       outlined
                       v-model="model.customer_mobile"

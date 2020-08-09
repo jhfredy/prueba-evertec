@@ -39130,6 +39130,7 @@ var render = function() {
                                             _vm.rules_form.numeros
                                           ]
                                         },
+                                        on: { keyup: _vm.onlyNumber },
                                         model: {
                                           value: _vm.model.customer_mobile,
                                           callback: function($$v) {
