@@ -110,7 +110,7 @@ class OrderController extends Controller
     public function aceptarOrden($orden_id){
         
         $orden=Order::find($orden_id);
-        if($orden->status=="CREATED"){
+        if($orden->status=="CREATED" || $orden->status=="REJECTED"){
             $orden->status="PAYED";
         }
         $orden->save();
@@ -118,7 +118,7 @@ class OrderController extends Controller
     }
     public function cancelarOrden($orden_id){
         $orden=Order::find($orden_id);
-        if($orden->status=="CREATED"){
+        if($orden->status=="CREATED" || $orden->status=="REJECTED"){
             $orden->status="REJECTED";
         }
         $orden->save();

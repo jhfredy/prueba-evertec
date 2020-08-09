@@ -10,4 +10,7 @@ class UserController extends Controller
         
         return view('user.user-ordenes-pagar');
     }
+    public function listaOrdenes(){
+        return view('user.user-lista-ordenes');
+    }
 }

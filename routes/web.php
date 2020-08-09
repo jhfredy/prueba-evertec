@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('user.user-home');
 });
 Route::get('/ordenesPagar','UserController@ordenesPagar')->name('ordenes-pagar');
+Route::get('/listaOrdenes','UserController@listaOrdenes')->name('lista-ordenes');
+
 Route::post('/guardarOrden','OrderController@guardarOrden')->name('guardar-orden');
 Route::post('/pagarOrden','OrderController@pagarOrden')->name('pagar-orden');
 

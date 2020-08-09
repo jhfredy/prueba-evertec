@@ -3,8 +3,8 @@
     <v-toolbar class="mb-2" color="#fafafa" light flat>
       <v-toolbar-title class="black--text">
         <v-avatar color="primary" class="mr-5">
-          <v-icon large dark>mdi-account-cash-outline</v-icon>
-        </v-avatar>Resumen
+          <v-icon large dark>mdi-clipboard-list-outline</v-icon>
+        </v-avatar>Ordenes
       </v-toolbar-title>
     </v-toolbar>
     <v-divider color="#0054a5" style="border: 1px dashed #fafafa"></v-divider>
@@ -13,7 +13,7 @@
       <v-row>
         <v-col cols="12">
           <v-toolbar color light flat>
-            <v-toolbar-title class="black--text text-uppercase">Ordenes Por Pagar</v-toolbar-title>
+            <v-toolbar-title class="black--text text-uppercase">Lista Ordenes</v-toolbar-title>
           </v-toolbar>
           
 
@@ -56,7 +56,10 @@
                     dense
                   >
                     <template v-slot:item.estado="{item}">
-                      <p class="mt-2">{{item.status=="CREATED"?"CREADO":"RECHAZADO"}}</p>
+                    
+                       <p class="mt-2" v-if="item.status=='CREATED'">CREADO</p>
+                    <p class="mt-2" v-if="item.status=='PAYED'">PAGADO</p>
+                    <p class="mt-2" v-if="item.status=='REJECTED'">RECHAZADO</p>
                     </template>
                     <template v-slot:item.action="{item}">
                       <v-row>
@@ -65,7 +68,7 @@
                             <template v-slot:activator="{ on, attrs }">
                               <v-col cols="6" sm="3">
                                 <v-btn
-                                  @click="abrirDialogPagar(item)"
+                                  @click="abrirDialogVer(item)"
                                   v-bind="attrs"
                                   v-on="on"
                                   class="mx-2"
@@ -73,13 +76,13 @@
                                   dark
                                   dense
                                   x-small
-                                  color="green darken-4"
+                                  color="indigo darken-4"
                                 >
-                                  <v-icon dark>mdi-cash-multiple</v-icon>
+                                  <v-icon dark>mdi-eye</v-icon>
                                 </v-btn>
                               </v-col>
                             </template>
-                            <span>Pagar</span>
+                            <span>Ver</span>
                           </v-tooltip>
                         </template>
                       </v-row>
@@ -138,34 +141,14 @@
           <v-btn color="indigo darken-4" outlined @click="dialogEnviar=false">
             <v-icon left>mdi-arrow-left-circle</v-icon>Volver
           </v-btn>
-
-          <v-btn color="primary" @click="guardarOrden()">
-            <v-icon left>check_circle</v-icon>Pagar Orden
-          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
     <!-- aqui empieza el dialog de carga -->
 
-    <v-dialog v-model="dialogEnviando" persistent width="600" height="200">
-      <v-card color="primary" dark>
-        <v-card-text class="white--text font-weight-bold">
-          Pagando Orden...
-          <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-    <v-snackbar :color="color_snackbar" top right v-model="snackbar_mensaje">
-      <div>
-        <p class="mx-2 my-2" v-for="(item, i) in text_snackbar" :key="i">
-          <v-icon large>mdi-message-alert-outline</v-icon>
-          {{item}}
-        </p>
-      </div>
-
-      <v-btn color="white" text @click="snackbar_mensaje = false">CERRAR</v-btn>
-    </v-snackbar>
+  
+  
   </div>
 </template>
 <script>
@@ -175,11 +158,8 @@ export default {
   data() {
     return {
       search: "",
-      dialogEnviar: false,
-      dialogEnviando: false,
-      color_snackbar: "success",
-      text_snackbar: [],
-      snackbar_mensaje: false,
+      dialogEnviar:false,
+     
       model: {
         id: "",
         customer_name: "",
@@ -201,45 +181,14 @@ export default {
     listarOrdenes() {
       axios
         .post("/mostrarOrdenes", {
-          opcion: 1,
+          opcion: 2,
         })
         .then((response) => {
           this.arrayOrdenes = response.data;
         });
     },
-    guardarOrden() {
-      this.dialogEnviar = false;
-      this.dialogEnviando = true;
-      this.text_snackbar = [];
-      axios
-        .post("/pagarOrden", {
-          model: this.model,
-        })
-        .then((response) => {
-          this.dialogEnviando = false;
-          this.color_snackbar = "success";
-          this.snackbar_mensaje = true;
-          this.text_snackbar.push("Orden pagada Correctamente");
-          this.limpiarCampos();
-          window.open(response.data, '_blank');
-        })
-        .catch((error) => {
-          this.dialogEnviando = false;
-          this.color_snackbar = "error";
-          this.snackbar_mensaje = true;
-
-          var errores = error.response.data.errors;
-
-          for (var key in errores) {
-            if (errores.hasOwnProperty(key)) {
-              errores[key].forEach((element) => {
-                this.text_snackbar.push(element);
-              });
-            }
-          }
-        });
-    },
-    abrirDialogPagar(item) {
+    
+    abrirDialogVer(item) {
       this.model.id = item.id;
       this.model.customer_name = item.customer_name;
       this.model.customer_email = item.customer_email;

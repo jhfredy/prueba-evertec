@@ -30,6 +30,7 @@ Vue.use(Vuetify)
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('user-create-order-component', require('./components/user/UserCreateOrderComponent.vue').default);
 Vue.component('user-pay-order-component', require('./components/user/UserPayOrderComponent.vue').default);
+Vue.component('user-order-list-component', require('./components/user/UserOrderListComponent.vue').default);
 
 
 /**
