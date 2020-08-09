@@ -70,7 +70,7 @@
         </v-col>
       </v-row>
     </v-card>
-    <!-- dialogs  -->
+    <!-- vista de la informacion de la orden  -->
     <v-dialog v-model="dialogEnviar" persistent max-width="950">
       <v-card style="border-left: 5px solid #1A237E ;">
         <v-card-title class="font-weight-bold"></v-card-title>
@@ -128,6 +128,7 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    <!-- mensaje de success o error -->
     <v-snackbar :color="color_snackbar" top right v-model="snackbar_mensaje">
       <div>
         <p class="mx-2 my-2" v-for="(item, i) in text_snackbar" :key="i">
@@ -161,16 +162,16 @@ export default {
   },
 
   methods: {
+    //funcion que me permite guardar la orden 
     guardarOrden() {
-      
-         this.dialogEnviar = false;
+      this.dialogEnviar = false;
       this.dialogEnviando = true;
       this.text_snackbar = [];
       axios.post("/guardarOrden", {
           model: this.model,
         })
         .then(response => {
-        
+          // si la orden se crea correctamente 
           this.dialogEnviando = false;
           this.color_snackbar = "success";
           this.snackbar_mensaje = true;
@@ -179,6 +180,7 @@ export default {
           // window.open(response.data, '_blank');
         })
         .catch(error => {
+          //si existe un error en la creacion de la orden
           this.dialogEnviando = false;
           this.color_snackbar = "error";
           this.snackbar_mensaje = true;
@@ -194,11 +196,13 @@ export default {
           }
         });
     },
+    //funcion que permite abrir la vista de la informacion de la orden
     abrirDialogGuardar() {
       if (this.$refs.form_orden.validate()) {
         this.dialogEnviar = true;
       }
     },
+    //funcion que permite limpiar los campos
     limpiarCampos() {
       this.model.customer_name = "";
       this.model.customer_email = "";

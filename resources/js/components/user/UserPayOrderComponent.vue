@@ -15,7 +15,8 @@
           <v-toolbar color light flat>
             <v-toolbar-title class="black--text text-uppercase">Ordenes Por Pagar</v-toolbar-title>
           </v-toolbar>
-          
+
+          <!-- busqueda de la orden -->
 
           <v-container>
             <v-card class="mx-auto" elevation="0">
@@ -43,6 +44,7 @@
                   </v-text-field>
                 </v-col>
               </v-row>
+              <!-- tabla de ordenes -->
 
               <v-row class="mt-2">
                 <v-col cols="12" sm="12" md="12">
@@ -92,7 +94,8 @@
         </v-col>
       </v-row>
     </v-card>
-    <!-- dialogs  -->
+    <!-- vista para ver la informacion de la orden  -->
+
     <v-dialog v-model="dialogEnviar" persistent max-width="950">
       <v-card style="border-left: 5px solid #1A237E ;">
         <v-card-title class="font-weight-bold"></v-card-title>
@@ -156,6 +159,7 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    <!-- mensajes de validacion de success o error -->
     <v-snackbar :color="color_snackbar" top right v-model="snackbar_mensaje">
       <div>
         <p class="mx-2 my-2" v-for="(item, i) in text_snackbar" :key="i">
@@ -198,6 +202,7 @@ export default {
   },
 
   methods: {
+    //funcion que lista las ordenes con estado CREATED o REJECTED
     listarOrdenes() {
       axios
         .post("/mostrarOrdenes", {
@@ -207,6 +212,7 @@ export default {
           this.arrayOrdenes = response.data;
         });
     },
+    //metodo para guardar la orden 
     guardarOrden() {
       this.dialogEnviar = false;
       this.dialogEnviando = true;
@@ -215,14 +221,17 @@ export default {
         .post("/pagarOrden", {
           model: this.model,
         })
+        //si se da click en pagar
         .then((response) => {
           this.dialogEnviando = false;
           this.color_snackbar = "success";
           this.snackbar_mensaje = true;
           this.text_snackbar.push("Orden pagada Correctamente");
           this.limpiarCampos();
-          window.open(response.data, '_blank');
+          //abre una estaña con la url indicada por la api de placetopay
+          window.open(response.data, "_blank");
         })
+        //si existe error envia mensaje de errores
         .catch((error) => {
           this.dialogEnviando = false;
           this.color_snackbar = "error";
@@ -239,6 +248,7 @@ export default {
           }
         });
     },
+    //funncion que abre la vista con la informacion de la orden
     abrirDialogPagar(item) {
       this.model.id = item.id;
       this.model.customer_name = item.customer_name;
@@ -247,6 +257,7 @@ export default {
       this.model.status = item.status;
       this.dialogEnviar = true;
     },
+    //funcion para limpiar los campos
     limpiarCampos() {
       this.model.id = "";
       this.model.customer_name = "";
@@ -255,6 +266,7 @@ export default {
       this.model.status = "";
     },
   },
+  //al momento que inicia el componente realiza la funcion de listar ordenes
   mounted() {
     this.listarOrdenes();
   },

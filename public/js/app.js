@@ -2136,6 +2136,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_mixins_funcionesGenerales__WEBPACK_IMPORTED_MODULE_0__["default"]],
@@ -2155,6 +2156,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    //funcion que me permite guardar la orden 
     guardarOrden: function guardarOrden() {
       var _this = this;
 
@@ -2164,6 +2166,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.post("/guardarOrden", {
         model: this.model
       }).then(function (response) {
+        // si la orden se crea correctamente 
         _this.dialogEnviando = false;
         _this.color_snackbar = "success";
         _this.snackbar_mensaje = true;
@@ -2173,6 +2176,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.limpiarCampos(); // window.open(response.data, '_blank');
 
       })["catch"](function (error) {
+        //si existe un error en la creacion de la orden
         _this.dialogEnviando = false;
         _this.color_snackbar = "error";
         _this.snackbar_mensaje = true;
@@ -2187,11 +2191,13 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    //funcion que permite abrir la vista de la informacion de la orden
     abrirDialogGuardar: function abrirDialogGuardar() {
       if (this.$refs.form_orden.validate()) {
         this.dialogEnviar = true;
       }
     },
+    //funcion que permite limpiar los campos
     limpiarCampos: function limpiarCampos() {
       this.model.customer_name = "";
       this.model.customer_email = "";
@@ -2401,6 +2407,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    //funcion para listar todas las ordenes
     listarOrdenes: function listarOrdenes() {
       var _this = this;
 
@@ -2410,6 +2417,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.arrayOrdenes = response.data;
       });
     },
+    //funcion para ver la vista de informacion de la orden
     abrirDialogVer: function abrirDialogVer(item) {
       this.model.id = item.id;
       this.model.customer_name = item.customer_name;
@@ -2418,6 +2426,7 @@ __webpack_require__.r(__webpack_exports__);
       this.model.status = item.status;
       this.dialogEnviar = true;
     },
+    //funcion para limpiar los campos 
     limpiarCampos: function limpiarCampos() {
       this.model.id = "";
       this.model.customer_name = "";
@@ -2427,6 +2436,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    //al momento de iniciar el componente llama la funcion de listar ordenes
     this.listarOrdenes();
   }
 });
@@ -2443,6 +2453,10 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_funcionesGenerales__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../mixins/funcionesGenerales */ "./resources/js/mixins/funcionesGenerales.js");
+//
+//
+//
+//
 //
 //
 //
@@ -2652,6 +2666,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    //funcion que lista las ordenes con estado CREATED o REJECTED
     listarOrdenes: function listarOrdenes() {
       var _this = this;
 
@@ -2661,6 +2676,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.arrayOrdenes = response.data;
       });
     },
+    //metodo para guardar la orden 
     guardarOrden: function guardarOrden() {
       var _this2 = this;
 
@@ -2669,17 +2685,20 @@ __webpack_require__.r(__webpack_exports__);
       this.text_snackbar = [];
       axios.post("/pagarOrden", {
         model: this.model
-      }).then(function (response) {
+      }) //si se da click en pagar
+      .then(function (response) {
         _this2.dialogEnviando = false;
         _this2.color_snackbar = "success";
         _this2.snackbar_mensaje = true;
 
         _this2.text_snackbar.push("Orden pagada Correctamente");
 
-        _this2.limpiarCampos();
+        _this2.limpiarCampos(); //abre una estaña con la url indicada por la api de placetopay
 
-        window.open(response.data, '_blank');
-      })["catch"](function (error) {
+
+        window.open(response.data, "_blank");
+      }) //si existe error envia mensaje de errores
+      ["catch"](function (error) {
         _this2.dialogEnviando = false;
         _this2.color_snackbar = "error";
         _this2.snackbar_mensaje = true;
@@ -2694,6 +2713,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    //funncion que abre la vista con la informacion de la orden
     abrirDialogPagar: function abrirDialogPagar(item) {
       this.model.id = item.id;
       this.model.customer_name = item.customer_name;
@@ -2702,6 +2722,7 @@ __webpack_require__.r(__webpack_exports__);
       this.model.status = item.status;
       this.dialogEnviar = true;
     },
+    //funcion para limpiar los campos
     limpiarCampos: function limpiarCampos() {
       this.model.id = "";
       this.model.customer_name = "";
@@ -2710,6 +2731,7 @@ __webpack_require__.r(__webpack_exports__);
       this.model.status = "";
     }
   },
+  //al momento que inicia el componente realiza la funcion de listar ordenes
   mounted: function mounted() {
     this.listarOrdenes();
   }
@@ -96793,6 +96815,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+ //arreglo para la validacion de formularios de el lado de la vista
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -96842,6 +96865,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    //funcion que permite que el campo sea solamente numerico
     onlyNumber: function onlyNumber($event) {
       var keyCode = $event.keyCode ? $event.keyCode : $event.which;
 

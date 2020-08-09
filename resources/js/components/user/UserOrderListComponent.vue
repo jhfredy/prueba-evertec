@@ -16,7 +16,7 @@
             <v-toolbar-title class="black--text text-uppercase">Lista Ordenes</v-toolbar-title>
           </v-toolbar>
           
-
+  <!-- busqueda de la orden -->
           <v-container>
             <v-card class="mx-auto" elevation="0">
               <v-row>
@@ -43,7 +43,7 @@
                   </v-text-field>
                 </v-col>
               </v-row>
-
+              <!-- tabla de ordenes -->
               <v-row class="mt-2">
                 <v-col cols="12" sm="12" md="12">
                   <v-data-table
@@ -95,7 +95,7 @@
         </v-col>
       </v-row>
     </v-card>
-    <!-- dialogs  -->
+    <!-- vista para ver la informacion de la orden  -->
     <v-dialog v-model="dialogEnviar" persistent max-width="950">
       <v-card style="border-left: 5px solid #1A237E ;">
         <v-card-title class="font-weight-bold"></v-card-title>
@@ -178,6 +178,7 @@ export default {
   },
 
   methods: {
+    //funcion para listar todas las ordenes
     listarOrdenes() {
       axios
         .post("/mostrarOrdenes", {
@@ -187,7 +188,7 @@ export default {
           this.arrayOrdenes = response.data;
         });
     },
-    
+    //funcion para ver la vista de informacion de la orden
     abrirDialogVer(item) {
       this.model.id = item.id;
       this.model.customer_name = item.customer_name;
@@ -196,6 +197,7 @@ export default {
       this.model.status = item.status;
       this.dialogEnviar = true;
     },
+    //funcion para limpiar los campos 
     limpiarCampos() {
       this.model.id = "";
       this.model.customer_name = "";
@@ -205,6 +207,7 @@ export default {
     },
   },
   mounted() {
+    //al momento de iniciar el componente llama la funcion de listar ordenes
     this.listarOrdenes();
   },
 };

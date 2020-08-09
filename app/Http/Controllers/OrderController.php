@@ -11,6 +11,7 @@ use Dnetix\Redirection\PlacetoPay;
 
 class OrderController extends Controller
 {
+    //funcion para guardar orden 
     public function guardarOrden(Request $request){
         $data=(object)$request->model;
         $attributes = [
@@ -18,18 +19,20 @@ class OrderController extends Controller
             'customer_email' => 'Dirección de correo electrónico',
             'customer_mobile' => 'Número de celular'
         ];
+        //validacion del lado del servidor
         $validator=Validator::make($request->model,[
             'customer_name' => 'required|max:80|string',
             'customer_email' => 'required|max:120|email',
             'customer_mobile' => 'required|digits:10|string'
 
         ],[],$attributes);
+        //si la validacion falla
         if ($validator->fails()) {
             return response()->json([
                 'errors' =>
                 ['message' => ['Error '.$validator->errors()->first()]]], 422);
         }
-
+        //inicio de proceso de guardar en base de datos
         DB::beginTransaction();
         try {
             $order=new Order();
@@ -38,11 +41,11 @@ class OrderController extends Controller
             $order->customer_mobile=$data->customer_mobile;
             $order->status="CREATED";
             $order->save();
-           
+        //realiza comit a la base de datos
         DB::commit();
         
     } catch (\Exception $e) {
-        
+        //en caso de error del lado del servidor, revierte el commit para que no almacene en la base de datos
         DB::rollback();
         return response()->json([
             'errors' =>
@@ -50,8 +53,11 @@ class OrderController extends Controller
         }
     }
     public function pagarOrden(Request $request){
+
         $data=(object)$request->model;
+        //llamo la funcion para la comunicacion de la api con placetopay
         $urlPlace=$this->placeToPay($data);
+        //retorna la url con la sesion para el usuario 
         return $urlPlace;
         
     }
@@ -66,9 +72,9 @@ class OrderController extends Controller
             return Order::all();
         }
     }
-    
+    //funcion que se utiliza para crear la instancia con la api de placetopay
     public function placeToPay($order){
-       
+       //se instancia la variable con las credenciales
         $placetopay = new PlacetoPay([
             'login' => ' 6dd490faf9cb87a9862245da41170ff2',
             'tranKey' => '024h1IlD',
@@ -78,7 +84,7 @@ class OrderController extends Controller
                 'connect_timeout' => 30, 
             ]
         ]);
-       
+        //como referencia se pasa como parametro el ID
         $reference = $order->id;
         $request = [
             'payment' => [
@@ -99,14 +105,17 @@ class OrderController extends Controller
         
         $response = $placetopay->request($request);
        
+        //si la peticion se hizo de manera correcta retorna la URL
         if ($response->isSuccessful()) {
+            
             return $response->processUrl();
         } else {
-            // There was some error so check the message and log it
+            // en caso de error retorna el mensaje de error
             return $response->status()->message();
         }
 
     }
+    //si se acepta la orden cambia el estado a PAYED
     public function aceptarOrden($orden_id){
         
         $orden=Order::find($orden_id);
@@ -116,6 +125,8 @@ class OrderController extends Controller
         $orden->save();
         return redirect('/ordenesPagar');
     }
+    //si se cancela la orden cambia el estado a REJECT
+
     public function cancelarOrden($orden_id){
         $orden=Order::find($orden_id);
         if($orden->status=="CREATED" || $orden->status=="REJECTED"){

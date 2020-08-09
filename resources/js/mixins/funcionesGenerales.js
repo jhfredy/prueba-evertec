@@ -1,5 +1,5 @@
 import Axios from "axios";
-
+//arreglo para la validacion de formularios de el lado de la vista
 export default {
     data() {
         return {
@@ -39,7 +39,7 @@ export default {
         }
     },
     methods: {
-        
+        //funcion que permite que el campo sea solamente numerico
         onlyNumber ($event) {
             let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
                 if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) { // 46 is dot
